@@ -315,13 +315,11 @@
                 <div class="box-footer">
                     <div class="pull-left">
                         <div class="form-group form-inline">
-                            总共2 页，共14 条数据。 每页
-                            <select class="form-control" id="changePageSize" onchange="changePageSize()">
-                                <option>1</option>
-                                <option>2</option>
-                                <option>3</option>
-                                <option>4</option>
-                                <option>5</option>
+                            总共${pageInfo.pages}页，共${pageInfo.total}条数据。 每页
+                            <select class="form-control" id="changePageSize" onchange="changePageSize()" >
+                                <c:forEach begin="1" end="5" var="pageNum">
+									<option>${pageNum}</option>
+								</c:forEach>
                             </select> 条
                         </div>
                     </div>
@@ -462,7 +460,7 @@
 			//获取下拉框的值
 			var pageSize = $("#changePageSize").val();
 
-			//向服务器发送请求，改变没页显示条数
+			//向服务器发送请求，改变每页显示条数
 			location.href = "${pageContext.request.contextPath}/orders/findAll.do?page=1&size="
 					+ pageSize;
 		}
@@ -505,6 +503,10 @@
 				}
 				$(this).data("clicks", !clicks);
 			});
+
+			// 页面刷新完之后在页码下拉框显示当前页码
+            $("#changePageSize").val("${pageInfo.pageSize}");
+
 		});
 	</script>
 </body>

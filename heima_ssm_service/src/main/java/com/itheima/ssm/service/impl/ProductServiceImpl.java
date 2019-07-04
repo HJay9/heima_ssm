@@ -16,4 +16,23 @@ public class ProductServiceImpl implements IProductService{
     private IProductDao productDao;
 
 
+    /**
+     * 查询所有产品
+     *
+     * @return
+     */
+    @Override
+    public List<Product> findAll() {
+        return productDao.findAll();
+    }
+
+    /**
+     * 新增一条产品记录
+     *
+     * @param product
+     */
+    @Override
+    public void save(Product product) {
+        productDao.save(product);
+    }
 }
