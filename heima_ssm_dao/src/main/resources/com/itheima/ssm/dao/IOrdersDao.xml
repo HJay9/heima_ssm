@@ -5,8 +5,27 @@
 
 <mapper namespace="com.itheima.ssm.dao.IOrdersDao">
 
-    <select id="findAll" resultType="orders">
-        select * from orders
+    <!--查询所有的订单-->
+    <select id="findAll" resultType="orders" resultMap="productMap">
+        select * from orders o left join product p on o.productid = p.id
     </select>
+    <resultMap id="productMap" type="orders">
+        <id property="id" column="id"/>
+        <association property="product" column="productid" select="com.itheima.ssm.dao.IProductDao.findById" />
+    </resultMap>
+
+    <!--查询订单详情-->
+    <select id="findById" parameterType="string" resultMap="orederDetailMap">
+        select * from orders where id = #{id}
+    </select>
+    <resultMap id="orederDetailMap" type="orders">
+        <id property="id" column="id"/>
+        <!--查询产品信息-->
+        <association property="product" column="productid" select="com.itheima.ssm.dao.IProductDao.findById" />
+        <!--查询旅客信息-->
+        <collection property="travellers" column="id" select="com.itheima.ssm.dao.ITravellerDao.findById"/>
+        <!--查询联系人信息-->
+        <collection property="member" column="memberid" select="com.itheima.ssm.dao.IMemberDao.findById"/>
+    </resultMap>
 
 </mapper>

@@ -18,8 +18,9 @@ public class ProductController {
     private IProductService productService;
 
     @RequestMapping("/findAll.do")
-    public ModelAndView findAll() {
-        List<Product> products = productService.findAll();
+    public ModelAndView findAll(@RequestParam(value = "search",defaultValue = "") String search) {
+        search = "%" + search + "%";
+        List<Product> products = productService.findAll(search);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("productList", products);
         modelAndView.setViewName("product-list");

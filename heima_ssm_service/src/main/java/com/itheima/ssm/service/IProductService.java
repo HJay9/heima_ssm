@@ -13,7 +13,7 @@ public interface IProductService {
      * 查询所有产品
      * @return
      */
-    List<Product> findAll();
+    List<Product> findAll(String search);
 
     /**
      * 新增一条产品记录

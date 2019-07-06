@@ -14,7 +14,14 @@ public interface IProductDao {
      * 查询所有产品
      * @return
      */
-    List<Product> findAll();
+    List<Product> findAll(String search);
+
+    /**
+     * 根据id查找产品
+     * @param id
+     * @return
+     */
+    Product findById(String id);
 
     /**
      * 新增一条产品记录

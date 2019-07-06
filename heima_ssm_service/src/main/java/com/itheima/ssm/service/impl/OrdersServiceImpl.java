@@ -37,6 +37,6 @@ public class OrdersServiceImpl implements IOrdersService {
      */
     @Override
     public Orders findById(String id) {
-        return null;
+        return ordersDao.findById(id);
     }
 }

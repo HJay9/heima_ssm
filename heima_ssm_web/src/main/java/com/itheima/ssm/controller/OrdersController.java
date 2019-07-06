@@ -18,13 +18,22 @@ public class OrdersController {
     @Autowired
     private IOrdersService ordersService;
 
-    @RequestMapping("/findAll.do")
+    @RequestMapping("/findAll")
     public ModelAndView findAll(@RequestParam(value = "page", defaultValue = "1") Integer pageNum, @RequestParam(value = "size", defaultValue = "5") Integer pageSize) {
         List<Orders> ordersList = ordersService.findAll(pageNum, pageSize);
         PageInfo<Orders> pageInfo = new PageInfo<>(ordersList);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("pageInfo", pageInfo);
         modelAndView.setViewName("orders-page-list");
+        return modelAndView;
+    }
+
+    @RequestMapping("/findById")
+    public ModelAndView findDetailByid(String id) {
+        Orders orders = ordersService.findById(id);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("orders", orders);
+        modelAndView.setViewName("orders-show");
         return modelAndView;
     }
 

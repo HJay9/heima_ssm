@@ -215,7 +215,7 @@
 							</div>
 							<div class="box-tools pull-right">
 								<div class="has-feedback">
-									<input type="text" class="form-control input-sm"
+									<input id="search" type="text" class="form-control input-sm"
 										placeholder="搜索"> <span
 										class="glyphicon glyphicon-search form-control-feedback"></span>
 								</div>
@@ -498,6 +498,12 @@
 				}
 				$(this).data("clicks", !clicks);
 			});
+
+			//搜索功能，鼠标离焦之后发送请求
+			$("#search").blur(function () {
+                var search = $("#search").val();
+                location.href="${pageContext.request.contextPath}/product/findAll.do?search=" + search;
+            });
 		});
 	</script>
 </body>
