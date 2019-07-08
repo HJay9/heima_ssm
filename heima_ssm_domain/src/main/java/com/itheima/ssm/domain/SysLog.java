@@ -1,5 +1,8 @@
 package com.itheima.ssm.domain;
 
+import com.itheima.ssm.utils.DateUtils;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 public class SysLog {
@@ -29,6 +32,9 @@ public class SysLog {
     }
 
     public String getVisitTimeStr() {
+        if(visitTime!=null){
+            visitTimeStr= DateUtils.date2String(visitTime,"yyyy-MM-dd HH:mm:ss");
+        }
         return visitTimeStr;
     }
 

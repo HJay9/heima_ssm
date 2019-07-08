@@ -7,10 +7,10 @@ import java.util.List;
 public interface ITravellerDao {
 
     /**
-     * 根据 id 查询
-     * @param id
+     * 根据 orderId 查询
+     * @param orderId
      * @return
      */
-    Traveller findById(String id);
+    Traveller findByOrderId(String orderId);
 
 }

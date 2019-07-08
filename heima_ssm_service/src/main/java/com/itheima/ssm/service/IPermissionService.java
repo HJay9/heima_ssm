@@ -1,17 +1,16 @@
-package com.itheima.ssm.dao;
+package com.itheima.ssm.service;
 
+import com.itheima.ssm.dao.IPermissionDao;
 import com.itheima.ssm.domain.Permission;
 
 import java.util.List;
 
-public interface IPermissionDao {
+/**
+ * @author Jay
+ * @date 2019/7/7
+ */
+public interface IPermissionService {
 
-    /**
-     * 根据 roleId 关联查询 Permission
-     * @param roleId
-     * @return
-     */
-    Permission findByRoleId(String roleId);
 
     /**
      * 根据 id 查询 permission

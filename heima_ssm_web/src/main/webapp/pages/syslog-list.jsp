@@ -143,7 +143,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<c:forEach items="${sysLogs}" var="syslog">
+								<c:forEach items="${pageInfo.list}" var="syslog">
 									<tr>
 										<td><input name="ids" type="checkbox"></td>
 										<td>${syslog.id}</td>
@@ -191,27 +191,28 @@
 				<div class="box-footer">
 					<div class="pull-left">
 						<div class="form-group form-inline">
-							总共2 页，共14 条数据。 每页 <select class="form-control">
-								<option>10</option>
-								<option>15</option>
-								<option>20</option>
-								<option>50</option>
-								<option>80</option>
+							总共${pageInfo.pages}页，共${pageInfo.total}条数据。 每页
+							<select class="form-control" id="changePageSize" onchange="changePageSize()" >
+								<c:forEach begin="1" end="5" var="pageNum">
+									<option>${pageNum}</option>
+								</c:forEach>
 							</select> 条
 						</div>
 					</div>
 
 					<div class="box-tools pull-right">
 						<ul class="pagination">
-							<li><a href="#" aria-label="Previous">首页</a></li>
-							<li><a href="#">上一页</a></li>
-							<li><a href="#">1</a></li>
-							<li><a href="#">2</a></li>
-							<li><a href="#">3</a></li>
-							<li><a href="#">4</a></li>
-							<li><a href="#">5</a></li>
-							<li><a href="#">下一页</a></li>
-							<li><a href="#" aria-label="Next">尾页</a></li>
+							<li>
+								<a href="${pageContext.request.contextPath}/sysLog/findAll.do?page=1&size=${pageInfo.pageSize}" aria-label="Previous">首页</a>
+							</li>
+							<li><a href="${pageContext.request.contextPath}/sysLog/findAll.do?page=${pageInfo.prePage}&size=${pageInfo.pageSize}">上一页</a></li>
+							<c:forEach begin="1" end="${pageInfo.pages}" var="pageNum">
+								<li><a href="${pageContext.request.contextPath}/sysLog/findAll.do?page=${pageNum}&size=${pageInfo.pageSize}">${pageNum}</a></li>
+							</c:forEach>
+							<li><a href="${pageContext.request.contextPath}/sysLog/findAll.do?page=${pageInfo.pageNum + 1}&size=${pageInfo.pageSize}">下一页</a></li>
+							<li>
+								<a href="${pageContext.request.contextPath}/sysLog/findAll.do?page=${pageInfo.pages}&size=${pageInfo.pageSize}" aria-label="Next">尾页</a>
+							</li>
 						</ul>
 					</div>
 
@@ -325,6 +326,19 @@
 		src="${pageContext.request.contextPath}/plugins/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js"></script>
 
 	<script>
+
+        function changePageSize() {
+            //获取下拉框的值
+            var pageSize = $("#changePageSize").val();
+
+            //向服务器发送请求，改变每页显示条数
+            location.href = "${pageContext.request.contextPath}/sysLog/findAll.do?page=1&size="
+                + pageSize;
+        }
+
+        // 页面刷新完之后在页码下拉框显示当前页码
+        $("#changePageSize").val("${pageInfo.pageSize}");
+
 		$(document).ready(function() {
 			// 选择框
 			$(".select2").select2();

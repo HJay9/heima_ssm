@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.itheima.ssm.dao.IRoleDao">
+
+    <!--根据 userId 查询 role，用于查询对应 user 的角色集合-->
+    <select id="findByUserId" parameterType="string" resultType="role">
+        select * from users_role ur left join role r  on ur.roleid = r.id where userid = #{id}
+    </select>
+
+    <!--根据 id 查询 Role-->
+    <select id="findById" parameterType="string" resultType="role">
+        select * from role where id = #{id}
+    </select>
+
+    <!--查询所有-->
+    <select id="findAll" resultType="role">
+        select * from role
+    </select>
+
+    <!--新增一条记录-->
+    <insert id="saveRole" parameterType="role" >
+        insert into role values(replace(UUID(), '-', ''), #{roleName}, #{roleDesc})
+    </insert>
+
+    <!--删除一条记录-->
+    <delete id="deleteRole" parameterType="string">
+        delete from role where id = #{id};
+        delete from role_permission where roleid = #{id};
+        delete from users_role where roleid = #{id}
+    </delete>
+
+    <!--查询可选角色-->
+    <select id="findOptionalRole" parameterType="string" resultType="role">
+        select * from role where id not in (select roleid from users_role where userid = #{userId})
+    </select>
+
+    <!--更新对应用户的角色-->
+    <insert id="updateRoleByUser" >
+        insert into users_role values(#{userId}, #{roleId})
+    </insert>
+
+    <!--查询可选权限-->
+    <select id="findOptionalPermission" parameterType="string" resultType="permission">
+        select * from permission where id not in (select permissionid from role_permission where roleid = #{roleId})
+    </select>
+
+    <!--更新对应角色的权限-->
+    <insert id="updatePermissionByRole" >
+        insert into role_permission values(#{permissionId}, #{roleId})
+    </insert>
+
+</mapper>

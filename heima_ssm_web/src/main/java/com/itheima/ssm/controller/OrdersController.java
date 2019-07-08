@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.security.DenyAll;
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
 @Controller
@@ -19,6 +22,9 @@ public class OrdersController {
     private IOrdersService ordersService;
 
     @RequestMapping("/findAll")
+//    @RolesAllowed("Role_ADMIN")
+//    @PermitAll
+    @DenyAll
     public ModelAndView findAll(@RequestParam(value = "page", defaultValue = "1") Integer pageNum, @RequestParam(value = "size", defaultValue = "5") Integer pageSize) {
         List<Orders> ordersList = ordersService.findAll(pageNum, pageSize);
         PageInfo<Orders> pageInfo = new PageInfo<>(ordersList);
