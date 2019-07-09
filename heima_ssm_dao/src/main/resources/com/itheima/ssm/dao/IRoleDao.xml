@@ -11,9 +11,13 @@
     </select>
 
     <!--根据 id 查询 Role-->
-    <select id="findById" parameterType="string" resultType="role">
+    <select id="findById" parameterType="string" resultMap="roleMap">
         select * from role where id = #{id}
     </select>
+    <resultMap id="roleMap" type="role" >
+        <id property="id" column="id"/>
+        <collection property="permissions" column="id" select="com.itheima.ssm.dao.IPermissionDao.findByRoleId"/>
+    </resultMap>
 
     <!--查询所有-->
     <select id="findAll" resultType="role">

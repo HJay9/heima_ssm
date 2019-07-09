@@ -24,7 +24,7 @@ public class OrdersController {
     @RequestMapping("/findAll")
 //    @RolesAllowed("Role_ADMIN")
 //    @PermitAll
-    @DenyAll
+//    @DenyAll
     public ModelAndView findAll(@RequestParam(value = "page", defaultValue = "1") Integer pageNum, @RequestParam(value = "size", defaultValue = "5") Integer pageSize) {
         List<Orders> ordersList = ordersService.findAll(pageNum, pageSize);
         PageInfo<Orders> pageInfo = new PageInfo<>(ordersList);
