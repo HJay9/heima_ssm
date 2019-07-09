@@ -5,7 +5,8 @@ import com.itheima.ssm.service.ISysLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
@@ -16,23 +17,17 @@ import java.util.Date;
 
 /**
  * @author Jay
- * @date 2019/7/8
+ * @date 2019/7/9
  */
 @Component
-public class LoginSuccessHandler implements AuthenticationSuccessHandler {
+public class CustomLogoutHandler implements LogoutSuccessHandler {
 
     @Autowired
     private ISysLogService sysLogService;
 
-    /**
-     * Called when a user has been successfully authenticated.
-     *
-     * @param request        the request which caused the successful authentication
-     * @param response       the response
-     * @param authentication the <tt>Authentication</tt> object which was created during
-     */
+
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+    public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         //将日志封装进 SysLog 对象
         SysLog sysLog = new SysLog();
         //访问时间
@@ -40,9 +35,9 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         //执行时长
         sysLog.setExecutionTime(null);
         //访问方法：类+方法名
-        sysLog.setMethod("user" + "=>" + "login");
+        sysLog.setMethod("user" + "=>" + "loginout");
         //url
-        sysLog.setUrl("/user/login");
+        sysLog.setUrl("/user/loginout");
         //ip
         sysLog.setIp(request.getRemoteAddr());
 
@@ -54,6 +49,6 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         //日志信息封装完毕，插入记录到数据库
         sysLogService.saveLog(sysLog);
 
-        request.getRequestDispatcher("/pages/main.jsp").forward(request, response);
+        request.getRequestDispatcher("/login.jsp").forward(request, response);
     }
 }

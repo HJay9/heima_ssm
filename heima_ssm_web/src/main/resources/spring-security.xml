@@ -40,7 +40,6 @@
                 login-page="/login.jsp" login-processing-url="/login.do"
                 default-target-url="/index.jsp"
                 authentication-failure-url="/failer.jsp"
-                authentication-success-forward-url="/pages/main.jsp"
                 username-parameter="username"
                 password-parameter="password"
                 authentication-success-handler-ref="loginSuccessHandler"/>
@@ -48,7 +47,7 @@
         <!-- 关闭跨域请求 -->
         <security:csrf disabled="true"/>
         <!-- 退出登录 -->
-        <security:logout invalidate-session="true" logout-url="/logout.do" logout-success-url="/login.jsp"/>
+        <security:logout invalidate-session="true" logout-url="/logout.do" success-handler-ref="loginOutHandler"/>
     </security:http>
 
     <!-- 切换成数据库中的用户名和密码 -->
@@ -71,6 +70,7 @@
     <!-- 配置加密类 -->
     <bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
     <bean id="loginSuccessHandler" class="com.itheima.ssm.controller.LoginSuccessHandler"/>
+    <bean id="loginOutHandler" class="com.itheima.ssm.controller.CustomLogoutHandler"/>
     <!--用于启用 SpEL 表达式的支持-->
     <!-- <bean id="webexpressionHandler" class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler" />-->
 </beans>
