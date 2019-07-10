@@ -196,9 +196,11 @@
 								<c:forEach begin="1" end="5" var="pageNum">
 									<option>${pageNum}</option>
 								</c:forEach>
-							</select> 条
+							</select> 条，当前第${pageInfo.pageNum}页
 						</div>
 					</div>
+
+
 
 					<div class="box-tools pull-right">
 						<ul class="pagination">
@@ -206,10 +208,34 @@
 								<a href="${pageContext.request.contextPath}/sysLog/findAll.do?page=1&size=${pageInfo.pageSize}" aria-label="Previous">首页</a>
 							</li>
 							<li><a href="${pageContext.request.contextPath}/sysLog/findAll.do?page=${pageInfo.prePage}&size=${pageInfo.pageSize}">上一页</a></li>
-							<c:forEach begin="1" end="${pageInfo.pages}" var="pageNum">
-								<li><a href="${pageContext.request.contextPath}/sysLog/findAll.do?page=${pageNum}&size=${pageInfo.pageSize}">${pageNum}</a></li>
-							</c:forEach>
-							<li><a href="${pageContext.request.contextPath}/sysLog/findAll.do?page=${pageInfo.pageNum + 1}&size=${pageInfo.pageSize}">下一页</a></li>
+
+							<%--总页数 < 10，起始页 = 1， 尾页 = 总页数 --%>
+							<c:if test="${pageInfo.pages < 10}">
+								<c:forEach begin="1" end="${pageInfo.pages}" var="pageNum">
+									<li><a href="${pageContext.request.contextPath}/sysLog/findAll.do?page=${pageNum}&size=${pageInfo.pageSize}">${pageNum}</a></li>
+								</c:forEach>
+							</c:if>
+
+							<%--当前页 - 5 < 1，起始页 = 1，尾页 = 10--%>
+							<c:if test="${(pageInfo.pageNum - 5) < 1}">
+								<c:forEach begin="1" end="10" var="pageNum">
+									<li><a href="${pageContext.request.contextPath}/sysLog/findAll.do?page=${pageNum}&size=${pageInfo.pageSize}">${pageNum}</a></li>
+								</c:forEach>
+							</c:if>
+							<%--当前页 + 4 > 总页数，起始页 = 总页数 - 9，尾页 = 总页数--%>
+							<c:if test="${(pageInfo.pageNum + 4) > pageInfo.pages}">
+								<c:forEach begin="${pageInfo.pages - 9}" end="${pageInfo.pages}" var="pageNum">
+									<li><a href="${pageContext.request.contextPath}/sysLog/findAll.do?page=${pageNum}&size=${pageInfo.pageSize}">${pageNum}</a></li>
+								</c:forEach>
+							</c:if>
+							<%--当前页 + 4 <= 总页数 && 当前页 - 5 >= 1，起始页 = 当前页 - 5，尾页 = 当前页 + 4--%>
+							<c:if test="${(pageInfo.pageNum + 4) <= pageInfo.pages && (pageInfo.pageNum - 5) >= 1}">
+								<c:forEach begin="${pageInfo.pageNum - 5}" end="${pageInfo.pageNum + 4}" var="pageNum">
+									<li><a href="${pageContext.request.contextPath}/sysLog/findAll.do?page=${pageNum}&size=${pageInfo.pageSize}">${pageNum}</a></li>
+								</c:forEach>
+							</c:if>
+
+                            <li><a href="${pageContext.request.contextPath}/sysLog/findAll.do?page=${pageInfo.pageNum + 1}&size=${pageInfo.pageSize}">下一页</a></li>
 							<li>
 								<a href="${pageContext.request.contextPath}/sysLog/findAll.do?page=${pageInfo.pages}&size=${pageInfo.pageSize}" aria-label="Next">尾页</a>
 							</li>
