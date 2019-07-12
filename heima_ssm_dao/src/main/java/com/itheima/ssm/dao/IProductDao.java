@@ -14,7 +14,7 @@ public interface IProductDao {
      * 查询所有产品
      * @return
      */
-    List<Product> findAll(String search);
+    List<Product> findAll();
 
     /**
      * 根据id查找产品

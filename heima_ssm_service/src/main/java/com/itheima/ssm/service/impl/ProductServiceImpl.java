@@ -22,8 +22,8 @@ public class ProductServiceImpl implements IProductService{
      * @return
      */
     @Override
-    public List<Product> findAll(String search) {
-        return productDao.findAll(search);
+    public List<Product> findAll() {
+        return productDao.findAll();
     }
 
     /**
